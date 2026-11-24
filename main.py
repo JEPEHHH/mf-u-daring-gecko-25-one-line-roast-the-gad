@@ -1,18 +1,26 @@
+"""Entrypoint for One-Line Roast: The Gadget You Use Every Day (program/v1)."""
+
 from pathlib import Path
 import sys
 
 DEFAULT_OUTPUT = Path("/output/entry.txt")
 
-# Initial milestone 1 draft candidate before pairwise tournament refinement.
 ROAST_LINE = (
-    "My Bluetooth earbuds burn their last 10% battery shouting \"BATTERY LOW\" "
-    "every minute until the warning kills them itself."
+    'Slack marks me "Away" the second I actually read a doc, '
+    "reducing my career to jiggling my mouse for proof of life."
 )
+
+
+def build_entry() -> str:
+    text = ROAST_LINE.strip()
+    if not text or len(text) > 200 or "\n" in text or "\r" in text:
+        raise ValueError("Entry must be a single non-empty line within 200 characters.")
+    return text
 
 
 def write_entry(output_path: Path = DEFAULT_OUTPUT) -> Path:
     output_path.parent.mkdir(parents=True, exist_ok=True)
-    output_path.write_text(ROAST_LINE, encoding="utf-8")
+    output_path.write_bytes(build_entry().encode("utf-8"))
     return output_path
 
 
